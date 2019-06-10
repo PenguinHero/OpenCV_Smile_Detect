@@ -22,10 +22,19 @@ while 1:
         roi_gray = gray[y:y + h, x:x + w]
         roi_color = img[y:y + h, x:x + w]
         ###smile detection
+
+# original smile parameters
+#        smile = smile_cascade.detectMultiScale(
+#            roi_gray,
+#            scaleFactor=1.7,
+#            minNeighbors=22,
+#            minSize=(25, 25),
+#            flags=cv2.CASCADE_SCALE_IMAGE
+#        )
         smile = smile_cascade.detectMultiScale(
             roi_gray,
-            scaleFactor=1.7,
-            minNeighbors=22,
+            scaleFactor= 1.16,
+            minNeighbors=35,
             minSize=(25, 25),
             flags=cv2.CASCADE_SCALE_IMAGE
         )
