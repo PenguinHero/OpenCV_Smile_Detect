@@ -6,9 +6,11 @@
 import cv2
 
 from sense_hat import SenseHat
-import time
+import datetime
 
 sense = SenseHat()
+use_hat = True
+
 
 # PRESS ESCAPE KEY WHEN RUNNING TO EXIT THE PROGRAM.
 
@@ -44,7 +46,13 @@ cap = cv2.VideoCapture(0)
 
 while True:
     
-    sense.clear(0,0,255)  # Set to Blue
+    # see if the timer is up to be allowed to show any hat image except smile.
+    if use_hat == False:
+        if datetime.datetime.now() > target_time:
+            use_hat = True
+    
+    if use_hat:
+        sense.clear(0,0,255)  # Set to Blue
     
     ret, img = cap.read()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -53,7 +61,10 @@ while True:
     ###Face detection
     
     if len(faces) > 0:
-        sense.clear(0,255,0) # Set to Green
+        if use_hat:
+            sense.clear(0,255,0) # Set to Green
+            use_hat = False
+            target_time = datetime.datetime.now() + datetime.timedelta(seconds=0.5)  # set the target time for a half second in the future.
     
     for (x, y, w, h) in faces:
         cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
@@ -91,7 +102,8 @@ while True:
 
         if len(smile) > 0:
             sense.set_pixels(smile_image)  # Show smile
-            time.sleep(0.5)                # hopefully sleeping half a second soes upset CV cycle...
+            use_hat = False
+            target_time = datetime.datetime.now() + datetime.timedelta(seconds=1)  # set the target time for a second in the future.
 
     cv2.imshow('Face', img)
     k = cv2.waitKey(30) & 0xff
