@@ -11,3 +11,6 @@ The original code and data files came from: https://www.electromaker.io/project/
 
 I have tweaked the code slightly to get Smile detection to work (old parameters present and commented out), as previously it only (for me) detected Face and Eyes.
 I'll keep playing with it to see if I can improve smile detection as it doesn't work as well as face and eyes, but at least it works. :)
+
+FaceEyesSmile.py is the default version.
+FaceEyesSmile2.py is a version that inlcudes use of a Pi SenseHat to display status of the detection. I had planned to run the program on a Pi without a monitor, and have it echo its detection status via the LEDs on the hat.
